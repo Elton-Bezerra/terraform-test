@@ -21,14 +21,8 @@ resource "aws_instance" "web_server" {
   security_groups = [aws_security_group.allow_http_https.name]
 }
 
-
 resource "aws_eip" "elastic-ip" {
   instance = aws_instance.web_server.id
-}
-
-
-output "db_server_id" {
-  value = aws_instance.db_server.id
 }
 
 resource "aws_security_group" "allow_http_https" {
@@ -57,4 +51,12 @@ resource "aws_security_group" "allow_http_https" {
     }
   }
 
+}
+
+output "db_server_private_ip" {
+  value = aws_instance.db_server.private_ip
+}
+
+output "web_server_public_ip" {
+  value = aws_eip.elastic-ip.public_ip
 }
